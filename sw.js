@@ -1,4 +1,4 @@
-const GAME_NAME = "Puyopuyotrans";
+const GAME_NAME = "OrbinautProject";
 const GAME_VERSION = "0.0.0.0";
 
 const CACHE_NAME = JSON.stringify({"name": GAME_NAME, "version": GAME_VERSION});
