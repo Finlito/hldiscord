@@ -1,5 +1,5 @@
-const GAME_NAME = "OrbinautProject";
-const GAME_VERSION = "0.0.0.0";
+const GAME_NAME = "PT_Engine";
+const GAME_VERSION = "1.0.0.0";
 
 const CACHE_NAME = JSON.stringify({"name": GAME_NAME, "version": GAME_VERSION});
 const CACHE_FILES = ["runner.data",

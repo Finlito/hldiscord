@@ -404,15 +404,6 @@
        });
       }
 
-      function triggerPayment(itemId, _callback_PaymentComplete) {
-        var pRValueCopy = triggerPaymentPrefix(_callback_PaymentComplete);
-        setTimeout(() => {
-          console.log("triggerPayment");
-          doGMLCallback(pRValueCopy, { id:itemId });        
-        }, 1000);
-        triggerPaymentPostfix();
-      }
-
       function ensureAspectRatio() {
         if(canvasElement===undefined) {
           return 
