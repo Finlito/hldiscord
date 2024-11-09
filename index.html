@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>GXC Game</title>
+    <link rel="icon" type="x-icon" href="favicon.png">
+    <title>Pizza Tower 1.1.0 Web Port</title>
     <style>
       @-webkit-keyframes rotation {
         from {
@@ -59,11 +60,7 @@
         min-height: fill-available;
         min-height: 100svh; /* Otherwise contents can be covered by an address bar in Safari on iOS 15 */
         min-width: 100vw;
-        background: radial-gradient(
-          56.63% 56.63% at 50% 43.37%,
-          #1c1726 0%,
-          #060612 100%
-        );
+        background: black;
         display: flex;
         flex-direction: column;
         overflow-x: hidden;
@@ -84,64 +81,14 @@
       }
 
       /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-      canvas.emscripten {
-        display: none;
-        border: 0px none;
-        background-color: black;
-        position: relative;
-        transition: opacity 5s ease-in;
-        -webkit-transition: opacity 5s ease-in;
-        opacity: 0;
-        filter: blur(0) grayscale(0);
-        margin-top: auto;
-        margin-bottom: auto;
-        image-rendering: optimizeSpeed;             /* Older versions of FF          */
-        image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
-        image-rendering: -webkit-optimize-contrast; /* Safari                        */
-        image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
-        image-rendering: pixelated;                 /* Awesome future-browsers       */
-        -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
-      }
-
-      canvas.active {
-        animation-name: fadeIn;
-        animation-duration: 2s;
-        opacity: 1;
-      }
-
-      canvas.paused {
-        animation-name: blur;
-        animation-duration: 0.5s;
-        filter: blur(2px) grayscale(1);
-      }
-
-      canvas.unpaused {
-        animation-name: none;
-      }
-
-      canvas.animatedSizeTransitions {
-        transition: width 0.3s ease, height 0.3s ease;
-      }
-
-      @keyframes fadeIn {
-        0% {
-          opacity: 0;
-        }
-
-        100% {
-          opacity: 1;
-        }
-      }
-
-      @keyframes blur {
-        0% {
-          filter: blur(0) grayscale(0);
-        }
-
-        100% {
-          filter: blur(2px) grayscale(1);
-        }
-      }
+      canvas.emscripten { 
+        width: height * 1.777; /* 16:9 */ 
+        height: 100%; 
+        overflow: hidden; 
+        display: block; 
+        position: absolute; 
+        top: 0; bottom: 0; left: 0; right: 0; 
+        margin: auto; }
 
       .spinner {
         height: 30px;
@@ -155,17 +102,6 @@
         border: 5px solid #bdff00;
         border-top: 5px solid #719900;
         border-radius: 100%;
-      }
-
-      .multiplayer-stats {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        font-family: monospace;
-        font-size: 8;
-        color: white;
-        visibility: hidden;
-        background-color: rgba(0, 0, 0, 0.5);
       }
 
       #status {
@@ -213,22 +149,6 @@
         margin: 10px;
       }
 
-      .output-container {
-        text-align: center;
-        margin-top: auto;
-      }
-      .output-button {
-        border: none;
-        width: 200px;
-        height: 25px;
-        margin: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: black;
-        color: #20c20e;
-        font-family: "Lucida Console", Monaco, monospace;
-      }
-
       #output {
         display: none;
         height: 200px;
@@ -261,78 +181,6 @@
         border: none;
         padding: 0;
       }
-
-      img.qrCode {
-         opacity: 1.0;
-         width: 50%;
-         height: 50%;
-      }
-
-      #pauseMenuContainer {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #pauseMenuContainer[hidden] {
-        display: none !important;
-        opacity: 0;
-      }
-
-      #pauseMenuBorder {
-        background: linear-gradient(135deg, #FA1E4E, transparent 40%);
-        padding: 1px;
-        border-radius: 4px;
-        clip-path: polygon(10.5px 0, 100% 0, 100% 100%, 0 100%, 0 10.5px);
-        width: 70vw;
-        max-width: 400px;
-      }
-
-      #pauseMenu {
-        display: flex;
-        flex-direction: column;
-        padding: 60px 30px 60px 30px;
-        background: linear-gradient(180deg, #2E273F 16.15%, rgba(46, 39, 63, 0.79) 56.25%, #2E273F 91.15%);
-        border-radius: 4px;
-        clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-        animation-name: fadeIn;
-        animation-duration: 0.5s;
-        opacity: 1;
-      }
-
-      #pauseMenu button {
-        font-weight: 500;
-        font-size: 17px;
-        color: white;
-        background: #FA1E4E;
-        border: 1px solid #FA1E4E;
-        border-radius: 6px;
-        padding: 12px 24px;
-        margin: 5px 0;
-        -webkit-user-select: none;
-        user-select: none;
-      }
-
-      #pauseMenu button#quitButton {
-        background: #FA1E4E40;
-      }
-
-      #pauseMenu button:hover {
-        filter: brightness(1.15);
-      }
-
-      #pauseMenu button:active {
-        filter: brightness(0.85);
-      }
-
-      #pauseMenu button[hidden] {
-        display: none;
-      }
     </style>
   </head>
 
@@ -344,72 +192,17 @@
       tabindex="-1"
     >
     </canvas>
-    <div id="pauseMenuContainer" hidden>
-      <div id="pauseMenuBorder">
-        <div id="pauseMenu">
-          <button id="resumeButton" onclick="resume()">
-            Resume
-          </button>
-          <button id="quitButton" onclick="quitIfSupported()">
-            Quit
-          </button>
-        </div>
-        </div>
-    </div>
     <div class="loading">
       <div class="spinner" id="spinner"></div>
       <div class="emscripten" id="status">Downloading...</div>
 
       <progress value="0" max="100" id="progress" hidden="1"></progress>
-      <img id="QRCode" class="qrCode" src="runner.svg" alt="URL QR Code" hidden="1"></img>
-      <img id="QR2Code" class="qrCode" src="runnerLocal.svg" alt="URL QR2 Code" hidden="1"></img>
-    </div>
-    <div class="multiplayer-stats" id="multiplayer-stats">
-      [no stats available]
-    </div>
-    <div class="output-container" id="output-container">
-      <button class="output-button" onclick="toggleConsole()">
-        Toggle Console
-      </button>
-      <button id="QRButton" class="output-button" onclick="toggleQRCode()">
-        Show QRCode
-      </button>
-      <button id="QR2Button" class="output-button" onclick="toggleQRCode2()">
-        Show Opera GX QRCode
-      </button>
-      <!--
-      <button id="webglbutton" class="output-button" onclick="toggleWebGLContext()">
-        Lose WebGL Context
-      </button>
-      -->
-      <button class="output-button" id="stats-button" style="visibility: hidden" onclick="toggleStats()">
-        Toggle Stats
-      </button>
-      <button class="output-button" id="share-button" style="visibility: hidden" onclick="navigator.clipboard.writeText(window.shareUrl)">
-        Copy Share Url
-      </button>
-      <button class="output-button" id="log-state-button" onclick="log_next_game_state()" style="visibility: hidden">
-        Log State
-      </button>
-      <textarea id="output" rows="8"></textarea>
     </div>
 
     <div id="message-container">
       <div id="messages">
       </div>
     </div>
-
-   <script async
-     data-ad-client="ca-pub-123"
-     data-ad-frequency-hint="30s"
-     data-adbreak-test="on"
-     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
-   </script>
-
-   <script>
-     window.adsbygoogle = window.adsbygoogle || [];
-     const adBreak =  adConfig = function(o) {adsbygoogle.push(o);}
-   </script>
 
     <script type="text/javascript">
       const CHANGE_ASPECT_RATIO = true;
@@ -419,16 +212,7 @@
       var progressElement = document.getElementById("progress");
       var spinnerElement = document.getElementById("spinner");
       var canvasElement = document.getElementById("canvas");
-      var outputElement = document.getElementById("output");
-      var outputContainerElement = document.getElementById("output-container");
-      var qrElement = document.getElementById("QRCode");
-      var qr2Element = document.getElementById("QR2Code");
-      var qrButton = document.getElementById("QRButton");
-      var qr2Button = document.getElementById("QR2Button");
-      var pauseMenu = document.getElementById("pauseMenuContainer");
-      var resumeButton = document.getElementById("resumeButton");
-      var quitButton = document.getElementById("quitButton");
-
+ 
       const messageContainerElement = document.getElementById("message-container");
       const messagesElement = document.getElementById("messages");
       let rollbackMessages = [];
@@ -474,6 +258,9 @@
             if (text === "Entering main loop.") {
               // It seems that this text ensures game is loaded.
               ensureAspectRatio();
+              // This Forces 1920x1080 aspect ratio on game startup
+              canvas.width = 1920;
+              canvas.height = 1080;
             }
             if (element) {
               element.value += text + "\n";
@@ -553,39 +340,6 @@
         }
       }
 
-      function toggleConsole() {
-        var isShown = outputElement.style.display === "flex";
-        if (isShown) {
-          outputElement.style.display = "none";
-          outputElement.scrollIntoView(false);
-        } else {
-          outputElement.style.display = "flex";
-          outputElement.scrollIntoView(true);
-        }
-      }
-
-      function toggleQRCode() {
-        var isShown = !qrElement.hidden;
-        if (isShown) {
-          qrElement.hidden = true;
-          qrButton.innerHTML = "Show QRCode";
-        } else {
-          qrElement.hidden = false;
-          qrButton.innerHTML = "Hide QRCode";
-        }
-      }
-
-      function toggleQRCode2() {
-        var isShown = !qr2Element.hidden;
-        if (isShown) {
-          qr2Element.hidden = true;
-          qr2Button.innerHTML = "Show Opera GX QRCode";
-        } else {
-          qr2Element.hidden = false;
-          qr2Button.innerHTML = "Hide Opera GX QRCode";
-        }
-      }
-
       /*
       var g_extLostContext = null;
 
@@ -608,12 +362,6 @@
         } // end else
       }
       */
-      function toggleStats() {
-        var elem = document.getElementById('multiplayer-stats');
-        if (elem) {
-          elem.style.visibility = elem.style.visibility == 'visible' ? 'hidden' : 'visible';
-        }
-      }
 
       var g_pWadLoadCallback = undefined;
       function setWadLoadCallback( _wadLoadCallback ) 
@@ -661,11 +409,11 @@
 
       function manifestFilesMD5()
       {
-        return [ "83a58b5b41b8b745c1a605997b09e39c",
-"5fd5f45b590036f7f9c887f36803e51d",
-"fbfa1a773162b42c4ce9ee4056644b86",
+        return [ "64c52fe90575bb2e81703999947fd228",
+"8205c033904e1ce761eff28ed921da38",
+"b347cc99e3e72ed83507297e83c8a79e",
 "e8f1e8db8cf996f8715a6f2164c2e44e",
-"6ec83fb14d45d8fae4ffe4cabdab2fe8" ];
+"619c41bf1f2095125e1b3c43c1edd301" ];
       }
 
       function onFirstFrameRendered()
@@ -675,55 +423,13 @@
 
       function onGameSetWindowSize(width,height)
       {
-          //console.log("Game set target window size to width:" + width + ", height:" + height);
-      }
+          if (startingHeight === undefined && startingWidth === undefined) {
+              console.log("Initial window size set to width: " + width + ", height: " + height);
 
-    function triggerAd(adId, _callback_beforeAd, _callback_afterAd, _callback_adDismissed, _callback_adViewed, _callback_adbreakDone) {
-       // need to take a copy of the RValues represented
-       var pRValueCopy = triggerAdPrefix( _callback_beforeAd, _callback_afterAd, _callback_adDismissed, _callback_adViewed, _callback_adbreakDone );
-       var pCallbackBeforeAd = pRValueCopy + (0*16);
-       var pCallbackAfterAd = pRValueCopy + (1*16);
-       var pCallbackAdDismissed = pRValueCopy + (2*16);
-       var pCallbackAdViewed = pRValueCopy + (3*16);
-       var pCallbackAdBreakDone = pRValueCopy + (4*16);
-
-       adBreak({
-         "type": "reward",                    // The type of this placement
-         "name": adId,                        // A descriptive name for this placement
-
-         "beforeAd": () => {                  // Prepare for the ad. Mute and pause the game flow
-           console.log("beforeAd");
-           // trigger _callback_beforeAd to game
-           doGMLCallback( pCallbackBeforeAd, { id:adId } );
-         },
-         "afterAd" : () => {                   // Resume the game and re-enable sound
-           console.log("afterAd");
-           // trigger _callback_afterAd to game
-           doGMLCallback( pCallbackAfterAd, { id:adId } );
-         },
-         "beforeReward": (showAdFn) => {      // Show reward prompt (call showAdFn() if clicked)
-           console.log("beforeReward");
-           showAdFn();
-           // Setup native prompt to indicate ad will load
-           // Will not be setup by dev so this UX controlled by GXC
-         },
-         "adDismissed": () => {               // Player dismissed the ad before it finished
-           console.log("adDismissed");
-           // trigger _callback_adDismissed to game
-           doGMLCallback( pCallbackAdDismissed, { id:adId } );
-         },
-         "adViewed": () => {                  // Player watched the ad–give them the reward.
-           console.log("adViewed");
-           // trigger _callback_adViewed to game
-           doGMLCallback( pCallbackAdViewed, { id:adId } );
-         },
-         "adBreakDone": (placementInfo) => {  // Always called (if provided) even if an ad didn't show
-           console.log("adBreakDone");
-           // trigger _callback_adBreakDone to game
-           doGMLCallback( pCallbackAdBreakDone, { id:adId } );
-           triggerAdPostfix( pRValueCopy );
-         }, 
-       });
+              startingHeight = height;
+              startingWidth = width;
+              startingAspect = startingWidth / startingHeight;
+          }
       }
 
       function ensureAspectRatio() {
@@ -734,32 +440,12 @@
         if (!CHANGE_ASPECT_RATIO) {
           return;
         }
-
-        /* NOTE(robertz): The default canvas sizes while loading are 300x150,
-         * let us not use those values. eventually, there will most likely be a
-         * game of that dimension, so this should be removed
-         */
-        if (canvasElement.height === 150 && canvasElement.width === 300) {
+        
+        if (startingHeight === undefined && startingWidth === undefined) {
           return;
         }
 
-        /* FIXME(ddrechny): Something in WASM code seems to set the canvas to
-         * 640x480 when <meta name="viewport" /> is used. This work around
-         * should be removed once that gets fixed.
-         */
-        if (canvasElement.height === 480 && canvasElement.width === 640) {
-			canvasElement.style.height =  "480px";
-			canvasElement.style.width = "640px";
-			return;
-        }
-
         canvasElement.classList.add("active");
-
-        if (startingHeight === undefined && startingWidth === undefined) {
-          startingHeight = canvasElement.height;
-          startingWidth = canvasElement.width;
-          startingAspect = startingWidth / startingHeight;
-        }
 
         const maxWidth = window.innerWidth;
         const maxHeight = window.innerHeight;
@@ -781,33 +467,6 @@
 
         canvasElement.style.height = newHeight + "px";
         canvasElement.style.width = newWidth + "px";
-      }
-
-      function pause() { // Don't change the name - GX Mobile calls it when the app becomes inactive.
-        if (!canvasElement.classList.contains("active")) { // Wait for the canvas to load.
-          return
-        }
-        
-        GM_pause();
-        pauseMenu.hidden = false;
-        canvasElement.classList.add("paused");
-      }
-
-      function resume() {
-        GM_unpause();
-        pauseMenu.hidden = true;
-        canvasElement.classList.remove("paused");
-        canvasElement.classList.add("unpaused");
-        enterFullscreenIfSupported();
-        lockOrientationIfSupported();
-      }
-
-      function quitIfSupported() {
-        if (window.oprt && window.oprt.closeTab) { /* GX Mobile API */
-          window.oprt.closeTab();
-        } else if (window.chrome && window.chrome.runtime && window.chrome.runtime.sendMessage) {
-          window.chrome.runtime.sendMessage('mpojjmidmnpcpopbebmecmjdkdbgdeke', { command: 'closeTab' })
-        }
       }
 
       function enterFullscreenIfSupported() {
@@ -878,13 +537,11 @@
 
       document.addEventListener("visibilitychange", (event) => {
         if (document.visibilityState != "visible") {
-          pause();
         }
       });
 
       window.addEventListener("load", (event) => {
         if ((!window.oprt || !window.oprt.enterFullscreen) && (!window.chrome || !window.chrome.runtime || !window.chrome.runtime.sendMessage)) {
-          quitButton.hidden = true;
         }
       });
 
